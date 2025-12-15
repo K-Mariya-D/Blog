@@ -1,0 +1,22 @@
+<div class="container my-5">
+  <h2 class="mb-4 text-center">New Post</h2>
+
+  <%= form_with model: @post, local: true do |f| %>
+    <div class="mb-3">
+      <%= f.label :title, class: "form-label" %>
+      <%= f.text_field :title, class: "form-control", placeholder: "Enter post title" %>
+    </div>
+
+    <div class="mb-3">
+      <%= f.label :content, class: "form-label" %>
+      <%= f.text_area :content, class: "form-control", rows: 5, placeholder: "Write your post here..." %>
+    </div>
+
+    <div class="mb-3">
+      <%= f.label :user_id, "Author (User ID)", class: "form-label" %>
+      <%= f.number_field :user_id, class: "form-control", placeholder: "Enter your user ID" %>
+    </div>
+
+    <%= f.submit "Create Post", class: "btn btn-primary w-100" %>
+  <% end %>
+</div>

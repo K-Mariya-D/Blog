@@ -1,0 +1,48 @@
+<div class="container my-5">
+
+  <!-- Post title -->
+  <h1 class="mb-4"><%= @post.title %></h1>
+
+  <!-- Post content (INTENTIONALLY VULNERABLE) -->
+  <div class="card mb-4 shadow-sm">
+    <div class="card-body">
+      <!-- Stored XSS -->
+      <%= @post.content.to_s.html_safe %>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- Comments -->
+  <h3 class="mb-3">Comments</h3>
+
+  <% @post.comments.each do |c| %>
+    <div class="card mb-2">
+      <div class="card-body">
+        <!-- Stored XSS in comments -->
+        <%= c.content.html_safe %>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- Add comment -->
+  <div class="card mt-4">
+    <div class="card-body">
+      <h5 class="card-title mb-3">Add comment</h5>
+
+      <form method="post" action="/comments">
+        <input type="hidden" name="post_id" value="<%= @post.id %>">
+        <input type="hidden" name="user_id" value="<%= current_user&.id %>">
+
+        <div class="mb-3">
+          <label class="form-label">Comment</label>
+          <textarea name="content" class="form-control" rows="3"
+            placeholder="Try &lt;script&gt;alert(1)&lt;/script&gt; 😉"></textarea>
+        </div>
+
+        <button class="btn btn-primary">Add comment</button>
+      </form>
+    </div>
+  </div>
+
+</div>

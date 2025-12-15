@@ -1,0 +1,19 @@
+current directory: /home/kas/projects/vulnerable_blog/vendor/bundle/ruby/3.1.0/gems/bootsnap-1.19.0/ext/bootsnap
+/usr/bin/ruby3.1 -I /usr/lib/ruby/vendor_ruby -r ./siteconf20251214-65927-j73qg6.rb extconf.rb
+checking for fdatasync() in unistd.h... yes
+checking for whether -D_GNU_SOURCE is accepted as CPPFLAGS... yes
+checking for whether -O3 is accepted as CFLAGS... yes
+checking for whether -std=c99 is accepted as CFLAGS... yes
+creating Makefile
+
+current directory: /home/kas/projects/vulnerable_blog/vendor/bundle/ruby/3.1.0/gems/bootsnap-1.19.0/ext/bootsnap
+make DESTDIR\= clean
+
+current directory: /home/kas/projects/vulnerable_blog/vendor/bundle/ruby/3.1.0/gems/bootsnap-1.19.0/ext/bootsnap
+make DESTDIR\=
+compiling bootsnap.c
+linking shared-object bootsnap/bootsnap.so
+
+current directory: /home/kas/projects/vulnerable_blog/vendor/bundle/ruby/3.1.0/gems/bootsnap-1.19.0/ext/bootsnap
+make DESTDIR\= install
+/usr/bin/install -c -m 0755 bootsnap.so ./.gem.20251214-65927-j0avxo/bootsnap

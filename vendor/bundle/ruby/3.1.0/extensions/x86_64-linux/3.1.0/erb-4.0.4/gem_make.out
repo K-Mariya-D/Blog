@@ -1,0 +1,15 @@
+current directory: /home/kas/projects/vulnerable_blog/vendor/bundle/ruby/3.1.0/gems/erb-4.0.4/ext/erb/escape
+/usr/bin/ruby3.1 -I /usr/lib/ruby/vendor_ruby -r ./siteconf20251214-65927-vuqc0a.rb extconf.rb
+creating Makefile
+
+current directory: /home/kas/projects/vulnerable_blog/vendor/bundle/ruby/3.1.0/gems/erb-4.0.4/ext/erb/escape
+make DESTDIR\= clean
+
+current directory: /home/kas/projects/vulnerable_blog/vendor/bundle/ruby/3.1.0/gems/erb-4.0.4/ext/erb/escape
+make DESTDIR\=
+compiling escape.c
+linking shared-object erb/escape.so
+
+current directory: /home/kas/projects/vulnerable_blog/vendor/bundle/ruby/3.1.0/gems/erb-4.0.4/ext/erb/escape
+make DESTDIR\= install
+/usr/bin/install -c -m 0755 escape.so ./.gem.20251214-65927-uejwl1/erb
