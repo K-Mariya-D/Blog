@@ -27,24 +27,13 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto d-flex align-items-center">
             <li class="nav-item"><%= link_to "Posts", posts_path, class: "nav-link" %></li>
-            <li class="nav-item"><%= link_to "Register", new_user_path, class: "nav-link" %></li>
-            <li class="nav-item"><%= link_to "Login", login_path, class: "nav-link" %></li>
+            <li class="nav-item"><%= link_to "Register", new_user_registration_path, class: "nav-link" %></li>
+            <li class="nav-item"><%= link_to "Login", new_user_session_path, class: "nav-link" %></li>
             <li class="nav-item">
-              <%= form_with url: logout_path, method: :delete, class: "d-inline" do %>
+              <%= form_with url: destroy_user_session_path, method: :delete, class: "d-inline" do %>
                 <%= submit_tag "Logout", class: "btn btn-link nav-link p-0 m-0 align-middle", data: { turbo: false } %>
               <% end %>
             </li>
-            <% if logged_in? %>
-              <span class="navbar-text me-3">
-                Hello, <%= current_user.email %>
-              </span>
-
-              <%= button_to "Logout", logout_path, method: :delete,
-                  class: "nav-link btn btn-link p-0",
-                  form: { class: "d-inline" } %>
-            <% else %>
-              <%= link_to "Login", login_path, class: "nav-link" %>
-            <% end %>
 
           </ul>
         </div>
