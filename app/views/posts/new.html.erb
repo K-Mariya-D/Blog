@@ -9,12 +9,7 @@
 
     <div class="mb-3">
       <%= f.label :content, class: "form-label" %>
-      <%= f.text_area :content, class: "form-control", rows: 5, placeholder: "Write your post here..." %>
-    </div>
-
-    <div class="mb-3">
-      <%= f.label :user_id, "Author (User ID)", class: "form-label" %>
-      <%= f.number_field :user_id, class: "form-control", placeholder: "Enter your user ID" %>
+      <%= f.rich_text_area :content, multiple: true, direct_upload: true, placeholder: "Write your post here..." %>
     </div>
 
     <%= f.submit "Create Post", class: "btn btn-primary w-100" %>
