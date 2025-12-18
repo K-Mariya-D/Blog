@@ -4,7 +4,7 @@
   </p>
 
   <p>
-    <%= comment.content.html_safe %>
+    <%= comment.content.body %>
   </p>
 
   <%= link_to "Delete", comment_path(comment), method: :delete %>

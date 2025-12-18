@@ -15,33 +15,54 @@
   <!-- Comments -->
   <h3 class="mb-3">Comments</h3>
 
-  <% @post.comments.each do |c| %>
-    <div class="card mb-2">
+  <% @post.comments.where(parent_id: nil).each do |comment| %>
+    <div class="card mt-4">
+      <!-- вывод комментария -->
       <div class="card-body">
-        <!-- Stored XSS in comments -->
-        <%= c.content.html_safe %>
+        <%= comment.content.body %>
+        <small>Author: <%= comment.user.email %></small>
       </div>
+      <!-- Кнопка "Ответить" -->
+      <button
+        type="button"
+        class="btn btn-link p-0"
+        data-controller="reply"
+        data-action="click->reply#select"
+        data-reply-comment-id-value="<%= comment.id %>"
+        data-reply-author-value="<%= comment.user.email %>">
+        Reply
+      </button>
+
+      <!-- Вывод дочерних комментариев  -->
+      <% comment.childrens.each do |child| %>
+        <div class="reply" style="margin-left:20px;">
+          <div class ="card-body">
+            <%= child.content.body %>
+          <small>Author: <%= child.user.email %></small>
+          </div>
+        </div>
+      <% end %>
     </div>
-  <% end %>
+    <% end %>
 
   <!-- Add comment -->
-  <div class="card mt-4">
+  <div class="card mt-4" id="add-comment">
     <div class="card-body">
       <h5 class="card-title mb-3">Add comment</h5>
 
-      <form method="post" action="/comments">
-        <input type="hidden" name="post_id" value="<%= @post.id %>">
-        <input type="hidden" name="user_id" value="<%= current_user&.id %>">
+      <%= form_with model: [@post, Comment.new], local: true do |c| %>
+
+        <%= c.hidden_field :parent_id, id: "comment_parent_id" %>
 
         <div class="mb-3">
-          <label class="form-label">Comment</label>
-          <textarea name="content" class="form-control" rows="3"
-            placeholder="Try &lt;script&gt;alert(1)&lt;/script&gt; 😉"></textarea>
+          <%= c.rich_text_area :content,
+            id: "comment_content",
+            placeholder: "Add your comment here..." %>
         </div>
 
-        <button class="btn btn-primary">Add comment</button>
-      </form>
+        <%= c.submit "Add comment", class: "btn btn-primary" %>
+      <% end %>
     </div>
   </div>
-
 </div>
+
