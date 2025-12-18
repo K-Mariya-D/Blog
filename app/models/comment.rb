@@ -6,4 +6,8 @@ class Comment < ApplicationRecord
   has_many   :childrens, class_name: "Comment", foreign_key: :parent_id, dependent: :destroy
 
   has_rich_text :content
+
+  def authored_by?(user)
+    self.user == user
+  end
 end

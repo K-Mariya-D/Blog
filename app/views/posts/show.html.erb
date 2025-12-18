@@ -16,29 +16,58 @@
   <h3 class="mb-3">Comments</h3>
 
   <% @post.comments.where(parent_id: nil).each do |comment| %>
-    <div class="card mt-4">
+    <div class="card">
       <!-- вывод комментария -->
       <div class="card-body">
         <%= comment.content.body %>
-        <small>Author: <%= comment.user.email %></small>
+        <small>Author: <%= comment.user.name %></small>
+        <div class = "reply-buttom">
+          <button
+            type="button"
+            class="btn btn-link p-0 "
+            data-controller="reply"
+            data-action="click->reply#select"
+            data-reply-comment-id-value="<%= comment.id %>"
+            data-reply-author-value="<%= comment.user.name %>">
+            Reply
+          </button>
+          <button
+            type="button"
+            class="btn btn-link p-0 ms-2"
+            data-controller="reply"
+            data-action="click->reply#edit"
+            data-reply-comment-id-value="<%= comment.id %>"
+            data-reply-content-value="<%= j comment.content.to_plain_text %>">
+            Update
+          </button>
+          <% if comment.authored_by?(current_user) %>
+            <%= button_to 'Delete', post_comment_path(@post, comment), 
+            method: :delete, form_class: "d-inline", class: "btn btn-link btn-danger" %>
+          <% end %>
+        </div>
+         
       </div>
-      <!-- Кнопка "Ответить" -->
-      <button
-        type="button"
-        class="btn btn-link p-0"
-        data-controller="reply"
-        data-action="click->reply#select"
-        data-reply-comment-id-value="<%= comment.id %>"
-        data-reply-author-value="<%= comment.user.email %>">
-        Reply
-      </button>
 
       <!-- Вывод дочерних комментариев  -->
       <% comment.childrens.each do |child| %>
-        <div class="reply" style="margin-left:20px;">
+        <div class="card reply" style="margin-left:20px;">
           <div class ="card-body">
             <%= child.content.body %>
-          <small>Author: <%= child.user.email %></small>
+          <small>Author: <%= child.user.name %></small>
+          <button
+            type="button"
+            class="btn btn-link p-0 ms-2"
+            data-controller="reply"
+            data-action="click->reply#edit"
+            data-reply-comment-id-value="<%= child.id %>"
+            data-reply-content-value="<%= j child.content.to_plain_text %>">
+            Update
+          </button>
+          <% if child.authored_by?(current_user) %>
+            <%= button_to 'Delete', 
+            post_comment_path(@post, child),
+            method: :delete, form_class: "d-inline", class: "btn btn-link btn-danger" %>
+          <% end %>
           </div>
         </div>
       <% end %>
@@ -53,14 +82,16 @@
       <%= form_with model: [@post, Comment.new], local: true do |c| %>
 
         <%= c.hidden_field :parent_id, id: "comment_parent_id" %>
+        <%=hidden_field_tag :edit_comment_id, nil, id: "edit_comment_id"%>
 
         <div class="mb-3">
           <%= c.rich_text_area :content,
+            row: 3,
             id: "comment_content",
             placeholder: "Add your comment here..." %>
         </div>
 
-        <%= c.submit "Add comment", class: "btn btn-primary" %>
+        <%= c.submit "Save comment", class: "btn btn-primary" %>
       <% end %>
     </div>
   </div>
