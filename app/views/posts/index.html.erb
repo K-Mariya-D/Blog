@@ -4,8 +4,14 @@
     <%= link_to "New Post", new_post_path, class: "btn btn-success" %>
   </div>
 
-  <form class="d-flex mb-4" action="" method="get">
-    <input name="q", class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+  <form class="d-flex mb-4" action="<%= posts_path %>" method="get">
+    <input
+      name="q"
+      value="<%= params[:q] %>"
+      class="form-control me-2"
+      type="search"
+      placeholder="Search"
+    >
     <button class="btn btn-primary" type="submit">Search</button>
   </form>
 

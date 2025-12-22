@@ -1,11 +1,17 @@
 class PostsController < ApplicationController
     before_action :authenticate_user!, except: [:show, :index]
 
-  def index
-    @posts = Post.all
-  end
+    def index
+      if params[:q].present?
+        @posts = Post
+                   .where("title LIKE ?", "%#{params[:q]}%")
+                   .order(created_at: :desc)
+      else
+        @posts = Post.order(created_at: :desc)
+      end
+    end
 
-  def show
+    def show
     @post = Post.find(params[:id])
     @comments = @post.comments
   end
