@@ -1,7 +1,12 @@
 class PostsController < ApplicationController
-    before_action :authenticate_user!, except: [:show, :index]
+  before_action :authenticate_user!, except: [:index, :show]
+  before_action :set_post, only: [:edit, :update, :destroy]
+  before_action :authorize_post!, only: [:edit, :update, :destroy]
 
-    def index
+  def authorize_post!
+    redirect_to posts_path, alert: "Access denied" unless @post.user == current_user
+  end
+  def index
       if params[:q].present?
         @posts = Post
                    .where("title LIKE ?", "%#{params[:q]}%")
@@ -32,20 +37,30 @@ class PostsController < ApplicationController
 
   def edit
     @post = Post.find(params[:id])
+    head :forbidden unless @post.user == current_user
   end
 
   def update
-    post = Post.find(params[:id])
-    post.update(post_params)
-    redirect_to post_path(post)
+    @post = Post.find(params[:id])
+    head :forbidden unless @post.user == current_user
+
+    @post.update(post_params)
+    redirect_to post_path(@post)
   end
 
   def destroy
-    Post.find(params[:id]).destroy
+    post = Post.find(params[:id])
+    head :forbidden unless post.user == current_user
+
+    post.destroy
     redirect_to posts_path
   end
 
   private
+
+  def set_post
+    @post = current_user.posts.find(params[:id])
+  end
 
   def post_params
     params.require(:post).permit(:title)
