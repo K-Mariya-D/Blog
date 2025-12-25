@@ -20,6 +20,7 @@
     <div class="card-body">
       <!-- Stored XSS -->
       <%= @post.content.body %>
+      <small>Author: <%= link_to @post.user.name, user_path(@post.user) %></small>
     </div>
   </div>
   <hr>
@@ -32,7 +33,7 @@
       <!-- вывод комментария -->
       <div class="card-body">
         <%= comment.content.body %>
-        <small>Author: <%= comment.user.name %></small>
+        <small>Author: <%= link_to comment.user.name, user_path(comment.user) %></small>
         <div class = "reply-buttom">
           <button
             type="button"
@@ -43,6 +44,7 @@
             data-reply-author-value="<%= comment.user.name %>">
             Reply
           </button>
+          <% if comment.authored_by?(current_user) %>
           <button
             type="button"
             class="btn btn-link p-0 ms-2"
@@ -52,7 +54,6 @@
             data-reply-content-value="<%= j comment.content.to_plain_text %>">
             Update
           </button>
-          <% if comment.authored_by?(current_user) %>
             <%= button_to 'Delete', post_comment_path(@post, comment), 
             method: :delete, form_class: "d-inline", class: "btn btn-link btn-danger" %>
           <% end %>
@@ -65,7 +66,8 @@
         <div class="card reply" style="margin-left:20px;">
           <div class ="card-body">
             <%= child.content.body %>
-          <small>Author: <%= child.user.name %></small>
+          <small>Author: <%= link_to child.user.name, user_path(child.user) %></small>
+          <% if child.authored_by?(current_user) %>
           <button
             type="button"
             class="btn btn-link p-0 ms-2"
@@ -75,7 +77,6 @@
             data-reply-content-value="<%= j child.content.to_plain_text %>">
             Update
           </button>
-          <% if child.authored_by?(current_user) %>
             <%= button_to 'Delete', 
             post_comment_path(@post, child),
             method: :delete, form_class: "d-inline", class: "btn btn-link btn-danger" %>

@@ -12,11 +12,6 @@
       <%= f.rich_text_area :content, class: "form-control", rows: 5, placeholder: "Update your post content..." %>
     </div>
 
-    <div class="mb-3">
-      <%= f.label :user_id, "Author (User ID)", class: "form-label" %>
-      <%= f.number_field :user_id, class: "form-control", placeholder: "Enter your user ID" %>
-    </div>
-
     <%= f.submit "Update Post", class: "btn btn-primary w-100" %>
   <% end %>
 </div>

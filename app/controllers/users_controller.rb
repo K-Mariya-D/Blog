@@ -1,12 +1,8 @@
 class UsersController < ApplicationController
-  def new
-    @user = User.new
-  end
 
-  def create
-    user = User.create(user_params)
-    session[:user_id] = user.id
-    redirect_to posts_path
+  def show
+    @user = User.find(params[:id])
+    @posts = @user.posts.order(created_at: :desc)
   end
 
   private
